@@ -5,9 +5,10 @@ package com.ofrancon.algos;
  * Introduction to Algorithms, T. Cormen et al., p. 18
  * O(n2)
  */
-public class InsertionSort {
+public class InsertionSort implements SortAlgorithm {
 
-	public static void sort(int[] array) {
+	@Override
+	public void sort(int[] array) {
 		if (array == null || array.length < 2) {
 			return;
 		}
@@ -31,7 +32,7 @@ public class InsertionSort {
 	}
 
 	// Exercise 2.1-2 p. 22
-	public static void sortDecreasing(int[] array) {
+	public void sortDecreasing(int[] array) {
 		if (array == null || array.length < 2) {
 			return;
 		}

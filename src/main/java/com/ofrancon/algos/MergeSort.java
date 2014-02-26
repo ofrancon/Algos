@@ -6,9 +6,10 @@ package com.ofrancon.algos;
  * Introduction to algorithms, T. Cormen et al., p. 34
  * O(n log n)
  */
-public class MergeSort {
+public class MergeSort implements SortAlgorithm {
 
-	public static void sort(int[] array) {
+	@Override
+	public void sort(int[] array) {
 		// Nothing to sort if the array contains less than 2 elements
 		if (array == null || array.length < 2) {
 			return;
@@ -16,7 +17,7 @@ public class MergeSort {
 		mergeSort(array, 0, array.length - 1);
 	}
 
-	private static void mergeSort(int[] array, int low, int high) {
+	private void mergeSort(int[] array, int low, int high) {
 		if (low < high) {
 			int middle = (low + high) / 2;
 			mergeSort(array, low, middle);
@@ -25,7 +26,7 @@ public class MergeSort {
 		}
 	}
 
-	private static void merge(int[] array, int low, int middle, int high) {
+	private void merge(int[] array, int low, int middle, int high) {
 		// Using arrays but could use queues
 		int leftSize = middle - low + 1;
 		int rightSize = high - middle;
