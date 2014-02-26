@@ -1,7 +1,8 @@
 package com.ofrancon.algos;
 
-/*
- * Introduction to Algorithms, T. Cormen p. 18
+/**
+ * Insertion sort
+ * Introduction to Algorithms, T. Cormen et al., p. 18
  * O(n2)
  */
 public class InsertionSort {
@@ -29,6 +30,7 @@ public class InsertionSort {
 		}
 	}
 
+	// Exercise 2.1-2 p. 22
 	public static void sortDecreasing(int[] array) {
 		if (array == null || array.length < 2) {
 			return;
