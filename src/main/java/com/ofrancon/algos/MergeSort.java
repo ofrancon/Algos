@@ -6,7 +6,7 @@ package com.ofrancon.algos;
  * Introduction to algorithms, T. Cormen et al., p. 34
  * O(n log n)
  */
-public class MergeSort implements SortAlgorithm {
+public class MergeSort implements SortingAlgorithm {
 
 	@Override
 	public void sort(int[] array) {

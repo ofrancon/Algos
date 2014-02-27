@@ -5,7 +5,7 @@ package com.ofrancon.algos;
  * Introduction to Algorithms, T. Cormen et al., p. 18
  * O(n2)
  */
-public class InsertionSort implements SortAlgorithm {
+public class InsertionSort implements SortingAlgorithm {
 
 	@Override
 	public void sort(int[] array) {

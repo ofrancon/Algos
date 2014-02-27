@@ -6,7 +6,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
-public class TestInsertionSort extends TestSortAlgorithm {
+public class TestInsertionSort extends TestSortingAlgorithm {
 
 	public TestInsertionSort() {
 		super(new InsertionSort());

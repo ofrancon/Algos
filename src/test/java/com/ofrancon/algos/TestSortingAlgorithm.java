@@ -7,11 +7,11 @@ import java.util.Random;
 
 import org.junit.Test;
 
-public abstract class TestSortAlgorithm {
+public abstract class TestSortingAlgorithm {
 
-	private final SortAlgorithm _algo;
+	private final SortingAlgorithm _algo;
 
-	TestSortAlgorithm(SortAlgorithm algo) {
+	TestSortingAlgorithm(SortingAlgorithm algo) {
 		_algo = algo;
 	}
 
