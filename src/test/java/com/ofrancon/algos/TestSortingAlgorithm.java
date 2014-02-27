@@ -34,6 +34,12 @@ public abstract class TestSortingAlgorithm {
 	}
 
 	@Test
+	public void testIndenticalElements() {
+		int[] input = { 42, 42, 42, 42, 42, 42 };
+		testSort(input);
+	}
+
+	@Test
 	public void testOneElement() {
 		int[] input = { 42 };
 		testSort(input);
