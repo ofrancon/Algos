@@ -8,10 +8,17 @@ package com.ofrancon.algos;
 public interface SortingAlgorithm {
 
 	/**
+	 * 
+	 * @return a String the name of the algorithm
+	 */
+	public String getName();
+
+	/**
 	 * Sorts the passed int array in nondecreasing order
 	 * 
 	 * @param array
 	 *            the array to sort
 	 */
 	public void sort(int[] array);
+
 }

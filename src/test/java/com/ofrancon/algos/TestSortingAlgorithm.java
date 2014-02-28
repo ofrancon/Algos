@@ -61,33 +61,39 @@ public abstract class TestSortingAlgorithm {
 	}
 
 	@Test
-	public void test10000() {
+	public void test10K() {
 		int[] input = createRandomIntArray(10000);
-		testSort(input, true);
+		testSort(input, true, "Time to sort 10K random elements: ");
 	}
 
 	@Test
-	public void test100000() {
+	public void test100K() {
 		int[] input = createRandomIntArray(100000);
-		testSort(input, true);
+		testSort(input, true, "Time to sort 100K random elements: ");
 	}
 
 	@Test
-	public void test10000AlreadySorted() {
+	public void test1M() {
+		int[] input = createRandomIntArray(1000000);
+		testSort(input, true, "Time to sort 1M random elements: ");
+	}
+
+	@Test
+	public void test10KAlreadySorted() {
 		int[] input = createSortedIntArray(10000);
-		testSort(input, true, "Time to sort " + input.length + " already sorted elements: ");
+		testSort(input, true, "Time to sort 10K already sorted elements: ");
 	}
 
 	@Test
-	public void test10000ReverseSorted() {
+	public void test10KReverseSorted() {
 		int[] input = createReverseSortedIntArray(10000);
-		testSort(input, true, "Time to sort " + input.length + " reverse sorted elements: ");
+		testSort(input, true, "Time to sort 10K reverse sorted elements: ");
 	}
 
 	@Test
-	public void test10000Identical() {
+	public void test10KIdentical() {
 		int[] input = createIdenticalIntArray(10000);
-		testSort(input, true, "Time to sort " + input.length + " identical elements: ");
+		testSort(input, true, "Time to sort 10K identical elements: ");
 	}
 
 	private void testSort(int[] input) {
@@ -103,12 +109,12 @@ public abstract class TestSortingAlgorithm {
 		long before = 0;
 		long after = 0;
 		if (isLogTime) {
-			before = System.currentTimeMillis();
+			before = System.nanoTime();
 		}
 		_algo.sort(input);
 		if (isLogTime) {
-			after = System.currentTimeMillis();
-			long time = after - before;
+			after = System.nanoTime();
+			double time = (after - before) / 1000000d;
 			System.out.println(message + time + " ms.");
 		}
 		check(input);

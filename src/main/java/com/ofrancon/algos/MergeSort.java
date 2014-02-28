@@ -8,6 +8,13 @@ package com.ofrancon.algos;
  */
 public class MergeSort implements SortingAlgorithm {
 
+	private static final String NAME = "MergeSort";
+
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 	@Override
 	public void sort(int[] array) {
 		// Nothing to sort if the array contains less than 2 elements

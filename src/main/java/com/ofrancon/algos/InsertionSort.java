@@ -7,6 +7,13 @@ package com.ofrancon.algos;
  */
 public class InsertionSort implements SortingAlgorithm {
 
+	private static final String NAME = "InsertionSort";
+
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 	@Override
 	public void sort(int[] array) {
 		if (array == null || array.length < 2) {
