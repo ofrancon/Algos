@@ -102,6 +102,12 @@ public abstract class TestSortingAlgorithm {
 		testSort(input, true, "Time to sort " + input.length + " reverse sorted elements: ");
 	}
 
+	@Test
+	public void test10000Identical() {
+		int[] input = createIdenticalIntArray(10000);
+		testSort(input, true, "Time to sort " + input.length + " identical elements: ");
+	}
+
 	private void testSort(int[] input) {
 		testSort(input, false);
 	}
@@ -155,6 +161,14 @@ public abstract class TestSortingAlgorithm {
 		int[] array = new int[size];
 		for (int i = 0; i < size; i++) {
 			array[i] = size - i;
+		}
+		return array;
+	}
+
+	private int[] createIdenticalIntArray(int size) {
+		int[] array = new int[size];
+		for (int i = 0; i < size; i++) {
+			array[i] = 42;
 		}
 		return array;
 	}
