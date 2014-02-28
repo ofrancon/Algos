@@ -34,7 +34,8 @@ public class QuickSort implements SortingAlgorithm {
 		int firstHigh = low;
 		// Scan the array up to the pivot
 		for (int i = low; i < high; i++) {
-			// If the element is less that the pivot,
+			// If the element is less that the pivot, swap it to the first high
+			// and move first high next
 			if (array[i] < pivot) {
 				swap(array, firstHigh, i);
 				firstHigh++;
