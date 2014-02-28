@@ -61,24 +61,6 @@ public abstract class TestSortingAlgorithm {
 	}
 
 	@Test
-	public void test10() {
-		int[] input = createRandomIntArray(10);
-		testSort(input, true);
-	}
-
-	@Test
-	public void test100() {
-		int[] input = createRandomIntArray(100);
-		testSort(input, true);
-	}
-
-	@Test
-	public void test1000() {
-		int[] input = createRandomIntArray(1000);
-		testSort(input, true);
-	}
-
-	@Test
 	public void test10000() {
 		int[] input = createRandomIntArray(10000);
 		testSort(input, true);
