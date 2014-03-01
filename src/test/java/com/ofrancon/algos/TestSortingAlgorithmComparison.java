@@ -18,6 +18,7 @@ public class TestSortingAlgorithmComparison {
 		testAlgo(size, new JDKSort());
 		testAlgo(size, new MergeSort());
 		testAlgo(size, new QuickSort());
+		testAlgo(size, new RandomizedQuickSort());
 	}
 
 	private void testAlgo(int size, SortingAlgorithm algo) {

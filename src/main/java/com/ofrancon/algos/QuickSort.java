@@ -35,7 +35,7 @@ public class QuickSort implements SortingAlgorithm {
 	// Rearranges the subarray in place.
 	// First partition contains values no greater than the pivot
 	// Second partition contains values greater than the pivot
-	private int partition(int[] array, int low, int high) {
+	int partition(int[] array, int low, int high) {
 		// Arbitrarily take the last element of the array as the pivot
 		int pivot = array[high];
 		int firstHigh = low;
@@ -53,7 +53,7 @@ public class QuickSort implements SortingAlgorithm {
 		return firstHigh;
 	}
 
-	private void swap(int[] array, int i, int j) {
+	void swap(int[] array, int i, int j) {
 		if (i != j) { // If i = j no need to swap
 			int temp = array[i];
 			array[i] = array[j];
