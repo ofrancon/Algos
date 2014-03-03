@@ -3,7 +3,8 @@ package com.ofrancon.algos;
 /**
  * Insertion sort
  * Introduction to Algorithms, T. Cormen et al., p. 18
- * O(n2)
+ * The algorithm design manual, S. Skiena, p. 117
+ * O(n^2)
  */
 public class InsertionSort implements SortingAlgorithm {
 

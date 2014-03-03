@@ -1,5 +1,10 @@
 package com.ofrancon.algos;
 
+/**
+ * SelectionSort
+ * The algorithm design manual, S. Skiena, p. 42
+ * O(n^2)
+ */
 public class SelectionSort implements SortingAlgorithm {
 
 	private static final String NAME = "SelectionSort";

@@ -4,7 +4,7 @@ package com.ofrancon.algos;
  * QuickSort
  * The algorithm design manual, S. Skiena, p. 124
  * Introduction to algorithms, T. Cormen et al., p. 171
- * Expected running time O(n log n), worst case O(n2)
+ * Expected running time O(n log n), worst case O(n^2)
  */
 public class QuickSort implements SortingAlgorithm {
 
