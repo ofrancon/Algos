@@ -117,6 +117,7 @@ public abstract class TestSortingAlgorithm {
 			double time = (after - before) / 1000000d;
 			System.out.println(message + time + " ms.");
 		}
+		// System.out.println("Output: " + Arrays.toString(input));
 		check(input);
 	}
 

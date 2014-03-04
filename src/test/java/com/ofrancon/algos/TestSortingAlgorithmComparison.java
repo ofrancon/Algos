@@ -19,6 +19,7 @@ public class TestSortingAlgorithmComparison {
 		testAlgo(size, new MergeSort());
 		testAlgo(size, new QuickSort());
 		testAlgo(size, new RandomizedQuickSort());
+		testAlgo(size, new HeapSort());
 	}
 
 	private void testAlgo(int size, SortingAlgorithm algo) {
