@@ -1,4 +1,4 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.sorting;
 
 import java.util.Arrays;
 

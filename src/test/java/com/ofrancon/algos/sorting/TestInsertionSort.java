@@ -1,10 +1,12 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.sorting;
 
 import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
 import org.junit.Test;
+
+import com.ofrancon.algos.sorting.InsertionSort;
 
 public class TestInsertionSort extends TestSortingAlgorithm {
 

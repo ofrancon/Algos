@@ -1,4 +1,6 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.sorting;
+
+import com.ofrancon.algos.sorting.JDKSort;
 
 public class TestJDKSort extends TestSortingAlgorithm {
 

@@ -1,4 +1,4 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.sorting;
 
 /**
  * An algorithm that puts elements in an array in a certain order

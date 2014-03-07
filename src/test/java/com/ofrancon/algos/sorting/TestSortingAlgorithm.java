@@ -1,4 +1,4 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.sorting;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.Test;
+
+import com.ofrancon.algos.sorting.SortingAlgorithm;
 
 public abstract class TestSortingAlgorithm {
 

@@ -1,10 +1,17 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.sorting;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Random;
 
 import org.junit.Test;
+
+import com.ofrancon.algos.sorting.HeapSort;
+import com.ofrancon.algos.sorting.JDKSort;
+import com.ofrancon.algos.sorting.MergeSort;
+import com.ofrancon.algos.sorting.QuickSort;
+import com.ofrancon.algos.sorting.RandomizedQuickSort;
+import com.ofrancon.algos.sorting.SortingAlgorithm;
 
 public class TestSortingAlgorithmComparison {
 
