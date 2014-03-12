@@ -12,10 +12,10 @@ public class RandomizedQuickSort extends QuickSort {
 
 	private static final String NAME = "RandomizedQuickSort";
 
-	private final Random _random;
+	private final Random random;
 
 	public RandomizedQuickSort() {
-		_random = new Random(42l);
+		random = new Random(42l);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class RandomizedQuickSort extends QuickSort {
 	 */
 	int partition(int[] array, int low, int high) {
 		// Generate a random number between 0 and the number of elements
-		int i = low + _random.nextInt(high - low);
+		int i = low + random.nextInt(high - low);
 		swap(array, i, high);
 		return super.partition(array, low, high);
 	}

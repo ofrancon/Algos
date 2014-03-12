@@ -6,7 +6,7 @@ package com.ofrancon.algos.structure;
  */
 public class Matrix {
 
-	private final int[][] _matrix;
+	private final int[][] matrix;
 
 	public Matrix(int rows, int columns) {
 		this(new int[rows][columns]);
@@ -14,7 +14,7 @@ public class Matrix {
 
 	public Matrix(int[][] array) {
 		check(array);
-		_matrix = array;
+		matrix = array;
 	}
 
 	private static final void check(int[][] array) {
@@ -27,15 +27,15 @@ public class Matrix {
 	}
 
 	public int[][] getArray() {
-		return _matrix;
+		return matrix;
 	}
 
 	public int getNumberOfRows() {
-		return _matrix.length;
+		return matrix.length;
 	}
 
 	public int getNumberOfColumns() {
-		return _matrix[0].length;
+		return matrix[0].length;
 	}
 
 	/**
@@ -98,20 +98,20 @@ public class Matrix {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
 		// For each row
-		for (int i = 0; i < _matrix.length; i++) {
+		for (int i = 0; i < matrix.length; i++) {
 			StringBuilder row = new StringBuilder();
 			// It's not the first row, so it's a new row, i.e. a new line
 			if (i != 0) {
 				row.append("]\n[");
 			}
 			// For each column
-			for (int j = 0; j < _matrix[0].length; j++) {
+			for (int j = 0; j < matrix[0].length; j++) {
 				// It's not the first column so separate it from the previous
 				// one by a space
 				if (j > 0) {
 					row.append(" ");
 				}
-				row.append(_matrix[i][j]);
+				row.append(matrix[i][j]);
 			}
 			sb.append(row.toString());
 		}

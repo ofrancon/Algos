@@ -7,14 +7,12 @@ import java.util.Random;
 
 import org.junit.Test;
 
-import com.ofrancon.algos.sorting.SortingAlgorithm;
-
 public abstract class TestSortingAlgorithm {
 
-	private final SortingAlgorithm _algo;
+	private final SortingAlgorithm algo;
 
 	TestSortingAlgorithm(SortingAlgorithm algo) {
-		_algo = algo;
+		this.algo = algo;
 	}
 
 	@Test
@@ -50,7 +48,7 @@ public abstract class TestSortingAlgorithm {
 	@Test
 	public void testNull() {
 		int[] input = null;
-		_algo.sort(input);
+		algo.sort(input);
 		assertTrue(input == null);
 	}
 
@@ -58,7 +56,7 @@ public abstract class TestSortingAlgorithm {
 	public void testNoElement() {
 		int[] input = {};
 		int[] output = {};
-		_algo.sort(input);
+		algo.sort(input);
 		assertTrue(Arrays.equals(input, output));
 	}
 
@@ -113,7 +111,7 @@ public abstract class TestSortingAlgorithm {
 		if (isLogTime) {
 			before = System.nanoTime();
 		}
-		_algo.sort(input);
+		algo.sort(input);
 		if (isLogTime) {
 			after = System.nanoTime();
 			double time = (after - before) / 1000000d;
