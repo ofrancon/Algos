@@ -59,4 +59,25 @@ public class TestMyQueue {
 		System.out.println(queue);
 		System.out.println("----- - -----");
 	}
+
+	@Test
+	public void testFullQueue() {
+		System.out.println("----- Test full queue -----");
+		MyQueue<String> queue = new MyQueue<String>(3);
+		queue.enqueue("A");
+		queue.enqueue("B");
+		queue.enqueue("C");
+		assertTrue("Queue should be full", queue.isFull());
+		System.out.println(queue);
+		try {
+			queue.enqueue("D");
+			fail("A RuntimeException should have been thrown");
+		} catch (Exception e) {
+			assertTrue("The exception should complain bout the queue being full", e.getMessage().contains("is full"));
+		}
+		System.out.println(queue);
+		queue.dequeue();
+		System.out.println(queue);
+		System.out.println("----- - -----");
+	}
 }
