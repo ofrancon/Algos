@@ -8,6 +8,7 @@ public class MyQueue<E> {
 
 	private int head;
 	private int tail;
+	private int currentSize;
 	Object[] data;
 
 	public MyQueue() {
@@ -15,34 +16,41 @@ public class MyQueue<E> {
 	}
 
 	public MyQueue(int maxSize) {
-		data = new Object[maxSize + 1];
+		data = new Object[maxSize];
 		head = 0;
 		tail = 0;
+		currentSize = 0;
 	}
 
 	public void enqueue(E element) {
 		if (!isFull()) {
 			data[tail] = element;
-			tail++;
-			if (tail == data.length) {
-				tail = 0; // Wrap around
-			}
+			currentSize++;
+			tail = increment(tail);
 		} else {
 			throw new RuntimeException("The queue is full!");
 		}
-		toString();
 	}
 
 	@SuppressWarnings("unchecked")
 	public E dequeue() {
-		E element = (E) data[head];
-		data[head] = null; // So GC can occur if needed
-		head++;
-		if (head == data.length) {
-			head = 0; // Wrap around
+		if (!isEmpty()) {
+			E element = (E) data[head];
+			data[head] = null; // So GC can occur if needed
+			currentSize--;
+			head = increment(head);
+			return element;
+		} else {
+			throw new RuntimeException("The queue is empty!");
 		}
-		toString();
-		return element;
+	}
+
+	private int increment(int x) {
+		x++;
+		if (x == data.length) {
+			x = 0; // Wrap around
+		}
+		return x;
 	}
 
 	@Override
@@ -50,22 +58,19 @@ public class MyQueue<E> {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Tail=" + tail);
 		sb.append(", Head=" + head);
+		sb.append(", size=" + currentSize);
 		sb.append(", isFull=" + isFull());
 		sb.append(", isEmpty=" + isEmpty());
-		sb.append(", Data=" + Arrays.toString(data));
+		sb.append(", data=" + Arrays.toString(data));
 
 		return sb.toString();
 	}
 
 	public boolean isEmpty() {
-		return head == tail;
+		return currentSize == 0;
 	}
 
 	public boolean isFull() {
-		if ((head == tail + 1) || (head == 0 && tail == data.length - 1)) {
-			return true;
-		} else {
-			return false;
-		}
+		return currentSize == data.length;
 	}
 }
