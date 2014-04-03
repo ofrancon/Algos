@@ -11,14 +11,14 @@ public class TestMyLinkedList {
 	@Test
 	public void testMyLinkedList() {
 		MyLinkedList<String> list = new MyLinkedList<String>();
-		int actualSize = list.getSize();
+		int actualSize = list.size();
 		System.out.println("List is: " + list);
 		int expectedSize = 0;
 		assertEquals("Not the expected size", expectedSize, actualSize);
 		assertTrue("List should be empty", list.isEmpty());
 		list.addFirst("C");
 		System.out.println("List is: " + list);
-		actualSize = list.getSize();
+		actualSize = list.size();
 		expectedSize = 1;
 		assertEquals("Not the expected size", expectedSize, actualSize);
 		assertTrue("Lost should not be empty", !list.isEmpty());
@@ -26,7 +26,7 @@ public class TestMyLinkedList {
 		System.out.println("List is: " + list);
 		list.addFirst("A");
 		System.out.println("List is: " + list);
-		actualSize = list.getSize();
+		actualSize = list.size();
 		expectedSize = 3;
 		assertEquals("Not the expected size", expectedSize, actualSize);
 		String actual = list.removeFirst();
@@ -60,6 +60,53 @@ public class TestMyLinkedList {
 		actual = list.contains("B");
 		assertFalse("List should not contain the element", actual);
 		System.out.println("----- - -----");
+	}
+
+	@Test
+	public void testRemoveElement() {
+		MyLinkedList<String> list = new MyLinkedList<String>();
+		list.addLast("A");
+		list.addLast("B");
+		list.addLast("C");
+		System.out.println("List is: " + list);
+		// Remove the first element
+		list.remove("A");
+		System.out.println("List is: " + list);
+		assertEquals("Not the expected size", 2, list.size());
+		assertEquals("Not the expected first element", "B", list.getFirst());
+		assertEquals("Not the expected last element", "C", list.getLast());
+		// Remove the last element
+		list.addFirst("A");
+		list.remove("C");
+		System.out.println("List is: " + list);
+		assertEquals("Not the expected size", 2, list.size());
+		assertEquals("Not the expected first element", "A", list.getFirst());
+		assertEquals("Not the expected last element", "B", list.getLast());
+		// Remove the only element
+		list = new MyLinkedList<String>();
+		list.addFirst("A");
+		list.remove("A");
+		System.out.println("List is: " + list);
+		assertEquals("Not the expected size", 0, list.size());
+		assertEquals("Not the expected first element", null, list.getFirst());
+		assertEquals("Not the expected last element", null, list.getLast());
+		// Remove from empty list
+		list = new MyLinkedList<String>();
+		list.remove("A");
+		System.out.println("List is: " + list);
+		assertEquals("Not the expected size", 0, list.size());
+		assertEquals("Not the expected first element", null, list.getFirst());
+		assertEquals("Not the expected last element", null, list.getLast());
+		// Remove an element that is not in the list
+		list = new MyLinkedList<String>();
+		list.addLast("A");
+		list.addLast("B");
+		list.addLast("C");
+		list.remove("D");
+		System.out.println("List is: " + list);
+		assertEquals("Not the expected size", 3, list.size());
+		assertEquals("Not the expected first element", "A", list.getFirst());
+		assertEquals("Not the expected last element", "C", list.getLast());
 	}
 
 }
