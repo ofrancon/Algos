@@ -1,8 +1,10 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.string;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.ofrancon.algos.string.FindMatch;
 
 public class TestFindMatch {
 

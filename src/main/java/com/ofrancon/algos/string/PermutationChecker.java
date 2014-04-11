@@ -1,4 +1,4 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.string;
 
 import java.util.HashMap;
 

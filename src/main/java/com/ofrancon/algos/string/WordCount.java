@@ -1,4 +1,4 @@
-package com.ofrancon.algos;
+package com.ofrancon.algos.string;
 
 public class WordCount {
 
