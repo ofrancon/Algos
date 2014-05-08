@@ -48,16 +48,17 @@ public class MyBlockingQueue<E> {
 	 * 
 	 * @param element the element to enqueue
 	 * @throws QueueShutdownException if the queue has been shutdown
+	 * @throws InterruptedException
 	 */
-	public void enqueue(E element) throws QueueShutdownException {
+	public synchronized void enqueue(E element) throws QueueShutdownException, InterruptedException {
 		if (!isShutdown()) {
-			if (!isFull()) {
-				data[tail] = element;
-				currentSize++;
-				tail = increment(tail);
-			} else {
-				// TODO wait
+			while (isFull()) {
+				wait();
 			}
+			data[tail] = element;
+			currentSize++;
+			tail = increment(tail);
+			notifyAll();
 		} else {
 			throw new QueueShutdownException("Cannot enqueue new elements: the queue has been shutdown");
 		}
@@ -65,34 +66,34 @@ public class MyBlockingQueue<E> {
 
 	/**
 	 * Removes the head element of the queue. Waits for an element to be
-	 * available if the queue is empty.
+	 * available if the queue is empty and not shutdown.
 	 * 
 	 * @return the oldest element in the queue
 	 * @throws QueueShutdownException if the queue is empty and has been
 	 *             shutdown
+	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	public E dequeue() throws QueueShutdownException {
-		if (!isEmpty()) {
-			E element = (E) data[head];
-			data[head] = null; // So GC can occur if needed
-			currentSize--;
-			head = increment(head);
-			return element;
-		} else {
+	public synchronized E dequeue() throws QueueShutdownException, InterruptedException {
+		while (isEmpty()) {
 			if (isShutdown()) {
-				throw new QueueShutdownException("Cannot dequeue anymore: the queue has been shutdown");
+				throw new QueueShutdownException("Cannot dequeue anymore: the queue is empty and has been shutdown");
 			} else {
-				// TODO wait
-				return null;
+				wait();
 			}
 		}
+		E element = (E) data[head];
+		data[head] = null; // So GC can occur if needed
+		currentSize--;
+		head = increment(head);
+		notifyAll();
+		return element;
 	}
 
 	/**
 	 * Shuts down the queue.
 	 */
-	public void shutdown() {
+	public synchronized void shutdown() {
 		isShutdown = true;
 	}
 
@@ -107,9 +108,11 @@ public class MyBlockingQueue<E> {
 	/**
 	 * Returns a String representation of this queue.
 	 * For debug purposes only.
+	 * 
+	 * @return a string representation of this queue
 	 */
 	@Override
-	public String toString() {
+	public synchronized String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Tail=" + tail);
 		sb.append(", Head=" + head);
@@ -127,7 +130,7 @@ public class MyBlockingQueue<E> {
 	 * 
 	 * @return true if this queue is empty
 	 */
-	public boolean isEmpty() {
+	public synchronized boolean isEmpty() {
 		return currentSize == 0;
 	}
 
@@ -136,7 +139,7 @@ public class MyBlockingQueue<E> {
 	 * 
 	 * @return true if this queue is full
 	 */
-	public boolean isFull() {
+	public synchronized boolean isFull() {
 		return currentSize == data.length;
 	}
 
@@ -145,7 +148,7 @@ public class MyBlockingQueue<E> {
 	 * 
 	 * @return true if this queue has been shutdown
 	 */
-	public boolean isShutdown() {
+	public synchronized boolean isShutdown() {
 		return isShutdown;
 	}
 }
