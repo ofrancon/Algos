@@ -126,6 +126,15 @@ public class MyBlockingQueue<E> {
 	}
 
 	/**
+	 * Returns the number of elements in the queue
+	 * 
+	 * @return the number of elements in the queue
+	 */
+	public synchronized int size() {
+		return currentSize;
+	}
+
+	/**
 	 * Returns true if this queue is empty.
 	 * 
 	 * @return true if this queue is empty
