@@ -4,9 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +17,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
@@ -27,6 +29,7 @@ public class TestMyBlockingQueue {
 	private static final int NB_PRODUCERS = 4;
 	private static final int NB_CONSUMERS = 4;
 	private static final int NB_ELEMENTS = 1000000;
+	private static final int QUEUE_SIZE = 10000;
 
 	@Test
 	public void testEnqueue() {
@@ -301,69 +304,84 @@ public class TestMyBlockingQueue {
 	}
 
 	@Test
-	public void testMyBlockingQueuePerf() {
+	public void testMyBlockingQueuePerformance() {
 		long before = System.nanoTime();
 		// Producers put x elements in the queue, and consumers consume these x
 		// elements in parallel.
-		final MyBlockingQueue<String> queue = new MyBlockingQueue<String>(10);
-		final AtomicInteger p = new AtomicInteger(0);
-		final AtomicInteger c = new AtomicInteger(0);
+		final MyBlockingQueue<String> queue = new MyBlockingQueue<String>(QUEUE_SIZE);
 		ExecutorService producers = Executors.newFixedThreadPool(NB_PRODUCERS);
 		ExecutorService consumers = Executors.newFixedThreadPool(NB_CONSUMERS);
 
-		for (int i = 0; i < NB_ELEMENTS; i++) {
-			final int j = i + 1;
-			// System.out.println("Generating 1 job");
-			Runnable producerJob = new Runnable() {
-				@Override
-				public void run() {
-					try {
-						String element = "E_" + j;
-						queue.enqueue(element);
-						p.getAndIncrement();
-						// System.out.println("Produced: " + element);
-					} catch (InterruptedException e) {
-						fail("Thread has been unexpectedly interrupted");
-					} catch (QueueShutdownException qse) {
-						fail("The queue has ben shutdown unexepectedly");
-					}
-				}
-			};
-			producers.execute(producerJob);
+		// Producers jobs
+		List<Future<String>> pFutures = new ArrayList<Future<String>>();
+		for (int i = 1; i <= NB_ELEMENTS; i++) {
+			ProducerJob pJob = new ProducerJob(i, queue);
+			Future<String> result = producers.submit(pJob);
+			pFutures.add(result);
+		}
+		// Consumers jobs
+		List<Future<String>> cFutures = new ArrayList<Future<String>>();
+		for (int i = 1; i <= NB_ELEMENTS; i++) {
+			ConsumerJob cJob = new ConsumerJob(queue);
+			Future<String> result = consumers.submit(cJob);
+			cFutures.add(result);
+		}
 
-			Runnable consumerJob = new Runnable() {
-				@Override
-				public void run() {
-					try {
-						String element = queue.dequeue();
-						c.getAndIncrement();
-						// System.out.println("Consumed: " + element);
-					} catch (InterruptedException e) {
-						fail("Thread has been unexpectedly interrupted");
-					} catch (QueueShutdownException qse) {
-						fail("The queue has ben shutdown unexepectedly");
-					}
-				}
-			};
-			consumers.execute(consumerJob);
-		}
-		// This will make the executor accept no new threads
-		// and finish all existing threads in the queue
-		producers.shutdown();
-		consumers.shutdown();
-		// Wait until all threads are finish
-		try {
-			producers.awaitTermination(10, TimeUnit.SECONDS);
-			consumers.awaitTermination(10, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			fail("Unexepected InterruptedException");
-		}
+		checkResults(pFutures);
+		checkResults(cFutures);
 		long after = System.nanoTime();
 		double time = (after - before) / 1000000d;
 		System.out.println("Finished all threads");
-		System.out.println("Produced " + p.get() + " jobs");
-		System.out.println("Consumed " + c.get() + " jobs");
+
 		System.out.println("Total time: " + time + " ms.");
+	}
+
+	@Test
+	public void testArrayBlockingQueuePerformance() {
+		long before = System.nanoTime();
+		// Producers put x elements in the queue, and consumers consume these x
+		// elements in parallel.
+		final ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<String>(QUEUE_SIZE);
+		ExecutorService producers = Executors.newFixedThreadPool(NB_PRODUCERS);
+		ExecutorService consumers = Executors.newFixedThreadPool(NB_CONSUMERS);
+
+		// Producers jobs
+		List<Future<String>> pFutures = new ArrayList<Future<String>>();
+		for (int i = 1; i <= NB_ELEMENTS; i++) {
+			ProducerJob2 pJob = new ProducerJob2(i, queue);
+			Future<String> result = producers.submit(pJob);
+			pFutures.add(result);
+		}
+		// Consumers jobs
+		List<Future<String>> cFutures = new ArrayList<Future<String>>();
+		for (int i = 1; i <= NB_ELEMENTS; i++) {
+			ConsumerJob2 cJob = new ConsumerJob2(queue);
+			Future<String> result = consumers.submit(cJob);
+			cFutures.add(result);
+		}
+
+		checkResults(pFutures);
+		checkResults(cFutures);
+		long after = System.nanoTime();
+		double time = (after - before) / 1000000d;
+		System.out.println("Finished all threads");
+
+		System.out.println("Total time: " + time + " ms.");
+	}
+
+	private void checkResults(List<Future<String>> results) {
+		assertEquals("Did not give the expected number of results", NB_ELEMENTS, results.size());
+		for (Future<String> future : results) {
+			try {
+				String result = future.get();
+				assertTrue("Should not have been interrupted", !INTERRUPTED.equals(result));
+				assertTrue("Should not have been shutdown", !SHUTDOWN.equals(result));
+			} catch (InterruptedException e) {
+				fail("Unexpected InterruptedException");
+			} catch (ExecutionException e) {
+				fail("Unexpected ExecutionException");
+			}
+		}
 	}
 
 	private class ProducerJob implements Callable<String> {
@@ -407,6 +425,48 @@ public class TestMyBlockingQueue {
 				result = INTERRUPTED;
 			} catch (QueueShutdownException qse) {
 				result = SHUTDOWN;
+			}
+			return result;
+		}
+	}
+
+	private class ProducerJob2 implements Callable<String> {
+		private final int id;
+		private final BlockingQueue<String> queue;
+
+		private ProducerJob2(int id, BlockingQueue<String> queue) {
+			this.id = id;
+			this.queue = queue;
+		}
+
+		@Override
+		public String call() {
+			String result;
+			try {
+				String element = "E_" + id;
+				queue.put(element);
+				result = ENQUEUED;
+			} catch (InterruptedException e) {
+				result = INTERRUPTED;
+			}
+			return result;
+		}
+	}
+
+	private class ConsumerJob2 implements Callable<String> {
+		private final BlockingQueue<String> queue;
+
+		private ConsumerJob2(BlockingQueue<String> queue) {
+			this.queue = queue;
+		}
+
+		@Override
+		public String call() {
+			String result;
+			try {
+				result = queue.take();
+			} catch (InterruptedException e) {
+				result = INTERRUPTED;
 			}
 			return result;
 		}
